@@ -1,5 +1,6 @@
 import React from 'react'
-import { ITodo } from '../interfaces'
+import {ITodo} from '../interfaces'
+import classNames from "classnames";
 
 type TodoListProps = {
     todos: ITodo[]
@@ -7,11 +8,7 @@ type TodoListProps = {
     onRemove: (id: number) => void
 }
 
-export const TodoList: React.FC<TodoListProps> = ({
-                                                      todos,
-                                                      onRemove,
-                                                      onToggle
-                                                  }) => {
+export const TodoList: React.FC<TodoListProps> = ({todos, onRemove, onToggle}) => {
     if (todos.length === 0) {
         return <p className="center">Пока дел нет!</p>
     }
@@ -20,18 +17,14 @@ export const TodoList: React.FC<TodoListProps> = ({
         event.preventDefault()
         onRemove(id)
     }
-
     return (
         <ul>
             {todos.map(todo => {
-                const classes = ['todo']
-                if (todo.completed) {
-                    classes.push('completed')
-                }
-
-
                 return (
-                    <li className={classes.join(' ')} key={todo.id}>
+                    <li className={classNames({
+                        todo: true,
+                        completed: todo.completed
+                    })} key={todo.id}>
                         <label>
                             <input
                                 type="checkbox"
